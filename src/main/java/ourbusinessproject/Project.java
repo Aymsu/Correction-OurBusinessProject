@@ -21,6 +21,10 @@ public class Project {
     private String description;
 
 
+    public Long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

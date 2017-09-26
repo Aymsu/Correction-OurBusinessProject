@@ -33,6 +33,10 @@ public class Enterprise {
     @Size(min = 3)
     private String contactEmail;
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
