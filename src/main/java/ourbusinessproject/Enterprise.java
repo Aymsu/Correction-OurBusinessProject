@@ -21,6 +21,7 @@ public class Enterprise {
 
     @NotNull
     @Email
+    @Size(min = 3)
     private String contactEmail;
 
     public String getName() {
