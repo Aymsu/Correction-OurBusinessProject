@@ -102,6 +102,7 @@ public class EnterpriseProjectServiceIntegrationTest {
 
         // then the fetched project is correctly instanced
         assertThat(fetchedProject.getTitle(), is(project.getTitle()));
+        assertThat(fetchedProject.getDescription(), is(project.getDescription()));
 
     }
 
@@ -131,6 +132,9 @@ public class EnterpriseProjectServiceIntegrationTest {
 
         // the fetched enterprise is correctly instanced
         assertThat(fetchedEnterprise.getName(), is(enterprise.getName()));
+        assertThat(fetchedEnterprise.getDescription(), is(enterprise.getDescription()));
+        assertThat(fetchedEnterprise.getContactEmail(), is(enterprise.getContactEmail()));
+        assertThat(fetchedEnterprise.getContactName(), is(enterprise.getContactName()));
 
     }
 

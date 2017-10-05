@@ -38,7 +38,7 @@ public class EnterpriseProjectServiceTest {
         enterpriseProjectService.save(project);
 
         // then: the persist method is invoke on the entity manager
-        verify(entityManager).persist(project);
+        verify(enterpriseProjectService.getEntityManager()).persist(project);
     }
 
     @Test
