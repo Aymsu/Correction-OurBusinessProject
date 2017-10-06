@@ -12,20 +12,24 @@ import static org.junit.Assert.*;
 public class ProjectTest {
 
     private Validator validator;
+    private Project project;
+
 
     @Before
     public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+        // given : a valid project
+        project = new Project();
+        project.setTitle("A project");
+        project.setDescription("Project description");
+
     }
 
     @Test
     public void testProjectValidation() {
 
         // given : a project with a non empty title and a non empty description
-        Project project = new Project();
-        project.setTitle("A project");
-        project.setDescription("Project description");
 
         // expect : project is valid
         assertTrue("expected no constraints violation", validator.validate(project).isEmpty());
@@ -41,6 +45,13 @@ public class ProjectTest {
 
         // then: the project is still valid
         assertTrue("expected no constraints violation", validator.validate(project).isEmpty());
+
+    }
+
+    @Test
+    public void testProjectInvalidation() {
+
+        // given : a project with a non empty title and a non empty description
 
         // when: the project has an empty title
         project.setTitle("");
