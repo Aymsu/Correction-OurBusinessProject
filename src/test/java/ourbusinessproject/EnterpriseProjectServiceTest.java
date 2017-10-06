@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.mockito.Mockito.*;
+
+import static org.mockito.BDDMockito.given;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,10 +32,12 @@ public class EnterpriseProjectServiceTest {
     public void setUp() throws Exception {
         enterpriseProjectService = new EnterpriseProjectService();
         enterpriseProjectService.setEntityManager(entityManager);
+        given(this.project.getEnterprise()).willReturn(enterprise);
     }
 
     @Test
     public void testEntityManagerPersistAProjectWhenProjectIsSaved() {
+
         // when: trying to save a project
         enterpriseProjectService.save(project);
 
@@ -56,7 +60,7 @@ public class EnterpriseProjectServiceTest {
         // when: trying to save the project
         enterpriseProjectService.findProjectById(anId);
 
-        // then: the persist method is invoke on the entity manager
+        // then: the find method is invoke on the entity manager
         verify(entityManager).find(Project.class, anId);
     }
 
@@ -66,7 +70,7 @@ public class EnterpriseProjectServiceTest {
         // when: trying to save the project
         enterpriseProjectService.findEnterpriseById(anId);
 
-        // then: the persist method is invoke on the entity manager
+        // then: the find method is invoke on the entity manager
         verify(entityManager).find(Enterprise.class, anId);
     }
 

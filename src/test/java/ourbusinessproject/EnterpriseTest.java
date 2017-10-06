@@ -7,6 +7,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class EnterpriseTest {
@@ -24,8 +26,18 @@ public class EnterpriseTest {
         enterprise.setDescription("Comp description");
         enterprise.setContactName("Paul Durand");
         enterprise.setContactEmail("paul@compco.com");
+    }
+
+    @Test
+    public void testValidEnterpriseValidation() {
+        // given a valid enterprise
+
         // the given enterprise is valid
         assertTrue("Expected no constraint violation", validator.validate(enterprise).isEmpty());
+
+        // and the enterprise has no attached projects
+        assertThat(enterprise.getProjects(), is(nullValue()));
+
     }
 
     @Test

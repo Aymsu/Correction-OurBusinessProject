@@ -1,5 +1,6 @@
 package ourbusinessproject;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +25,65 @@ public class EnterpriseProjectServiceIntegrationTest {
     private Project project;
     private Enterprise enterprise;
 
-    @Test
-    public void testSaveValidProject() {
+    @Before
+    public void setUp() {
+
+        // given a a valid Enterprise
+        enterprise = new Enterprise();
+        enterprise.setName("MyComp");
+        enterprise.setDescription("My comp description");
+        enterprise.setContactEmail("comp@com.com");
+        enterprise.setContactName("comp contact name");
 
         // given a a valid project
         project = new Project();
         project.setTitle("A project");
         project.setDescription("Project description");
+        project.setEnterprise(enterprise);
+
+    }
+
+    @Test
+    public void testSaveValidProjectWithNewEnterprise() {
+
+        // given a a valid project
 
         // when saving the project
         enterpriseProjectService.save(project);
 
         // expect the project is saved with a generated id
         assertThat(project.getId(), is(notNullValue()));
+
+        // expect its enterprise is saved too
+        assertThat(project.getEnterprise().getId(), is(notNullValue()));
+
+        // expect the enterprise has the project referenced in its collection of projects
+        assertThat(enterprise.getProjects(), hasItem(project));
+
+    }
+
+    @Test
+    public void testSaveValidProjectWithAlreadySavedEnterprise() {
+
+        // given a a valid project and an already saved enterprise
+        enterpriseProjectService.save(enterprise);
+
+        // when saving the project
+        enterpriseProjectService.save(project);
+
+        // expect the project is saved with a generated id
+        assertThat(project.getId(), is(notNullValue()));
+
+        // expect the enterprise has the project referenced in its collection of projects
+        assertThat(enterprise.getProjects(), hasItem(project));
+
     }
 
     @Test(expected = ConstraintViolationException.class)
     public void testSaveNonValidProject() {
 
         // given a non valid project
-        project = new Project();
         project.setTitle("");
-        project.setDescription("Project description");
 
         // when saving the project
         enterpriseProjectService.save(project);
@@ -58,11 +96,6 @@ public class EnterpriseProjectServiceIntegrationTest {
     public void testSaveValidEnterprise() {
 
         // given a a valid Enterprise
-        enterprise = new Enterprise();
-        enterprise.setName("MyComp");
-        enterprise.setDescription("My comp description");
-        enterprise.setContactEmail("comp@com.com");
-        enterprise.setContactName("comp contact name");
 
         // when saving the enterprise
         enterpriseProjectService.save(enterprise);
@@ -76,9 +109,8 @@ public class EnterpriseProjectServiceIntegrationTest {
 
         // given a non valid enterprise
         enterprise = new Enterprise();
-        enterprise.setName("MyComp");
-        enterprise.setDescription("My comp description");
-        enterprise.setContactEmail("comp@com.com");
+        enterprise.setName(null);
+
 
         // when saving the enterprise
         enterpriseProjectService.save(enterprise);
@@ -91,9 +123,6 @@ public class EnterpriseProjectServiceIntegrationTest {
     public void testFindExistingProjectById() {
 
         // given a saved project
-        project = new Project();
-        project.setTitle("The project");
-        project.setDescription("Project description");
         enterpriseProjectService.save(project);
 
 
@@ -120,11 +149,6 @@ public class EnterpriseProjectServiceIntegrationTest {
     @Test
     public void testFindExistingEnterprise() {
         // given a saved Enterprise
-        enterprise = new Enterprise();
-        enterprise.setName("MyComp");
-        enterprise.setDescription("My comp description");
-        enterprise.setContactEmail("comp@com.com");
-        enterprise.setContactName("comp contact name");
         enterpriseProjectService.save(enterprise);
 
         // when an existing  enterprise is searched by id
