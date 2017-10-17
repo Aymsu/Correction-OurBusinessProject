@@ -19,7 +19,8 @@ public class InitializationService {
     private Enterprise enterprise1;
     private Enterprise enterprise2;
 
-    public InitializationService(@Autowired EnterpriseProjectService enterpriseProjectService) {
+    @Autowired
+    public InitializationService(EnterpriseProjectService enterpriseProjectService) {
         this.enterpriseProjectService = enterpriseProjectService;
     }
 

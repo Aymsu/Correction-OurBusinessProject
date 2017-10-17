@@ -10,7 +10,8 @@ public class Bootstrap {
 
     private InitializationService initializationService;
 
-    public Bootstrap(@Autowired InitializationService initializationService) {
+    @Autowired
+    public Bootstrap(InitializationService initializationService) {
         this.initializationService = initializationService;
     }
 

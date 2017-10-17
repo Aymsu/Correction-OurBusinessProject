@@ -11,7 +11,8 @@ public class ProjectController {
 
     private EnterpriseProjectService enterpriseProjectService;
 
-    public ProjectController(@Autowired EnterpriseProjectService enterpriseProjectService) {
+    @Autowired
+    public ProjectController(EnterpriseProjectService enterpriseProjectService) {
         this.enterpriseProjectService = enterpriseProjectService;
     }
 
