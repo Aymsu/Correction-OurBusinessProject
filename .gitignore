@@ -23,3 +23,5 @@ dist/
 nbdist/
 .nb-gradle/
 /CourseResources/.~lock.*.odt#
+/CourseResources/oBP-1.pdf
+/CourseResources/oBP-2.pdf
