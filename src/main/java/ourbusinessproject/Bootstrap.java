@@ -19,6 +19,7 @@ public class Bootstrap {
     public void init() {
         try {
             initializationService.initProjects();
+            initializationService.initPartnerships();
         } catch (Exception e) {
             e.printStackTrace();
         }

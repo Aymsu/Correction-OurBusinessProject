@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 public class InitializationService {
 
     private EnterpriseProjectService enterpriseProjectService;
-
+    private PartnershipService partnershipService;
 
     private Project project1E1;
     private Project project2E1;
@@ -19,9 +19,16 @@ public class InitializationService {
     private Enterprise enterprise1;
     private Enterprise enterprise2;
 
+    private Partnership partnershipP1E1WithE2;
+    private Partnership partnershipP1E2WithE1;
+    private Partnership partnershipP2E1WithE2;
+
+
     @Autowired
-    public InitializationService(EnterpriseProjectService enterpriseProjectService) {
+    public InitializationService(EnterpriseProjectService enterpriseProjectService,
+                                 PartnershipService partnershipService) {
         this.enterpriseProjectService = enterpriseProjectService;
+        this.partnershipService = partnershipService;
     }
 
     public void initProjects() {
@@ -32,6 +39,33 @@ public class InitializationService {
         initAndSaveProject1E2();
         initAndSaveProject2E1();
 
+    }
+
+    public void initPartnerships() {
+        initAndSavePartnershipP1E1WithE2();
+        initAndSavePartnershipP1E2WithE1();
+        initAndSavePartnershipP2E1WithE2();
+    }
+
+    private void initAndSavePartnershipP1E1WithE2() {
+        partnershipP1E1WithE2 = new Partnership();
+        partnershipP1E1WithE2.setProject(project1E1);
+        partnershipP1E1WithE2.setEnterprise(enterprise2);
+        partnershipService.save(partnershipP1E1WithE2);
+    }
+
+    private void initAndSavePartnershipP1E2WithE1() {
+        partnershipP1E2WithE1 = new Partnership();
+        partnershipP1E2WithE1.setProject(project1E2);
+        partnershipP1E2WithE1.setEnterprise(enterprise1);
+        partnershipService.save(partnershipP1E2WithE1);
+    }
+
+    private void initAndSavePartnershipP2E1WithE2() {
+        partnershipP2E1WithE2 = new Partnership();
+        partnershipP2E1WithE2.setProject(project2E1);
+        partnershipP2E1WithE2.setEnterprise(enterprise2);
+        partnershipService.save(partnershipP2E1WithE2);
     }
 
     private void initAndSaveProject1E1() {
@@ -85,5 +119,17 @@ public class InitializationService {
 
     public Enterprise getEnterprise2() {
         return enterprise2;
+    }
+
+    public Partnership getPartnershipP1E1WithE2() {
+        return partnershipP1E1WithE2;
+    }
+
+    public Partnership getPartnershipP1E2WithE1() {
+        return partnershipP1E2WithE1;
+    }
+
+    public Partnership getPartnershipP2E1WithE2() {
+        return partnershipP2E1WithE2;
     }
 }
