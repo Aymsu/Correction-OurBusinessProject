@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
+//@Transactional
 public class InitializationService {
 
     private EnterpriseProjectService enterpriseProjectService;
@@ -36,11 +36,13 @@ public class InitializationService {
     private void initAndSaveProject1E1() {
         project1E1 = new Project("p1e1","p1 e1 description", enterprise1);
         enterpriseProjectService.save(project1E1);
+        enterprise1 = project1E1.getEnterprise();
     }
 
     private void initAndSaveProject1E2() {
         project1E2 = new Project("p1e2","p1 e2 description", enterprise2);
         enterpriseProjectService.save(project1E2);
+        enterprise2 = project1E2.getEnterprise();
     }
 
     private void initAndSaveProject2E1() {

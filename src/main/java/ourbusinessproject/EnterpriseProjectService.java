@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,15 +16,9 @@ public class EnterpriseProjectService {
     private EntityManager entityManager;
 
     public void save(Project project) {
-        Enterprise enterprise = project.getEnterprise();
-        if (enterprise.getId() == null) {
-            save(enterprise);
-        }
-        if (enterprise.getProjects() == null) {
-            enterprise.setProjects(new ArrayList<>());
-        }
-        enterprise.getProjects().add(project);
+        project.setEnterprise(entityManager.merge(project.getEnterprise())); // manage the enterprise in the current EM
         entityManager.persist(project);
+        entityManager.refresh(project.getEnterprise());
     }
 
     public void save(Enterprise enterprise) {
@@ -47,7 +40,6 @@ public class EnterpriseProjectService {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
 
     public List<Project> findAllProjects() {
         TypedQuery<Project> query = entityManager.createQuery("select p from Project p join fetch p.enterprise order by p.title", Project.class);

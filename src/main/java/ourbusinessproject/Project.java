@@ -18,7 +18,7 @@ public class Project {
     private String description;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Enterprise enterprise;
 
     public Project() {}
